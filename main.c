@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 		error_custom_exit("Usage: cal 'expr'\nExemple -> cal '.1 + .2'");
 	}
 
-	printf("│En cours...\n");
+	printf("En cours...\n");
 
 	Parser* parser = parser_init(argv[1]);
 	Token* token = parse_expr(parser, 0);
@@ -26,7 +26,10 @@ int main(int argc, char *argv[])
     unsigned long millis = (end -  begin) * 1000 / CLOCKS_PER_SEC;
 	// printf("TOTAL :  %g en %lu ms ", eval(argv[1]), millis);
 	printf("TOTAL :  %g en %lu ms\n", value, millis);
-	print_token2(token, 0, 0);
+
+	char buffer[40] = "";
+	print_token3(token, 0, 0, buffer);
+
 	print_expr(token);
 
 	free_token(token);

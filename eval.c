@@ -27,7 +27,8 @@ double eval_token(Token *token)
 	// A function
 	case T_CALL:
 		switch(token->function.prot->numberArgs) {
-		case 1: return token->function.prot->function(eval_token(token->function.args[0]));
+		case 1: return token->function.prot->function1(eval_token(token->function.args[0]));
+		case 2: return token->function.prot->function2(eval_token(token->function.args[0]),eval_token(token->function.args[1]));
 		}
 	
 	// Error

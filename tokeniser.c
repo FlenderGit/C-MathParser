@@ -9,7 +9,8 @@
 
 
 FunctPrototype lsFunction[] = {
-	{sin, 1, "sin"}
+	{ .function1=sin, 1, "sin"},
+	{ .function2=pow, 2, "pow"}
 };
 
 Token* next_token(Tokeniser *tokeniser)
@@ -24,10 +25,10 @@ Token* next_token(Tokeniser *tokeniser)
 		current = tokeniser->expr[tokeniser->cursor];
 	}
 
-
 	if (current=='\0'){
 		tok->type=T_EOF;
 		tokeniser->cursor++;
+		return tok;
 	} else if(isalpha(current)) {
 		
 
@@ -47,7 +48,7 @@ Token* next_token(Tokeniser *tokeniser)
 
 			while ( i < 1 ) {
 
-				if ( strcmp(buffer, lsFunction[i].name) )
+				if ( !strcmp(buffer, lsFunction[i].name) )
 					break;
 
 				++i;
@@ -55,6 +56,8 @@ Token* next_token(Tokeniser *tokeniser)
 
 			tok->type = T_CALL;
 			tok->function.prot = &lsFunction[i];
+			tok->function.args = malloc(sizeof(Token)*lsFunction[i].numberArgs);
+
 			tokeniser->cursor += strlen(buffer);
 			return tok;
 
@@ -118,8 +121,11 @@ void free_token(Token* token)
 		free_token(token->left);
 		free_token(token->right);
 	} 
-	else if ( token->type == T_CALL )
-		free(token->function.args);
+	else if ( token->type == T_CALL ) {
+		for (short i=0; i<token->function.prot->numberArgs; ++i){
+			free(&token->function.args[i]);
+		}
+	}
 
 	free(token);
 }

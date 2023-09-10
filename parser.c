@@ -3,6 +3,7 @@
 
 #include "include/tokeniser.h"
 #include "include/parser.h"
+#include "include/print.h"
 
 
 Parser* parser_init(char* expr)
@@ -34,7 +35,7 @@ Token* parse_expr(Parser *parser, TOKEN_OPERATOR operator )
 	Token *next = parser->current;
 	TOKEN_OPERATOR next_ope = next->operator;
 
-	while(next_ope != T_EOF ) {
+	while(next->type != T_EOF ) {
 
 		if(operator >= next_ope)
 			break;
@@ -68,19 +69,21 @@ Token* parser_prefix_expr(Parser *parser)
 		if(parser->current->type==OPE_MINUS)
 			parser->current->value *= -1;
 		return parser->current;
+	
 	case T_CALL:
-		printf("ENTER\n");
 		tok = parser->current;
-		printf("CALL FIND :\n" );
 		parser_advance(parser);
 		if(parser->current->type==T_OPEN)
 			parser_advance(parser);
 		for(short i=0; i<tok->function.prot->numberArgs; ++i){
 			tok->function.args[i] = parse_expr(parser,0);
 		}
+		print_token(tok,0);
 		if(parser->current->type == T_CLOSE)
 			parser_advance(parser);
+
 		return tok;
+	
 	}
 
 	return (void*)0;
