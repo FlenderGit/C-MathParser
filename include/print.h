@@ -3,6 +3,11 @@
 
 #include "tokeniser.h"
 
+typedef enum {
+    GRAPH,
+    TABLE
+} PRINT_TYPE;
+
 /*
  * Function: print_token
  * --------------------
@@ -78,5 +83,8 @@ void print_expr(Token* token);
  * short        : the number of tab
  */
 void printTab(short lvlInt);
+
+void print_table(Token* token, double min, double max, double step);
+void print_graph(Token* token, double min, double max, double step, int yMin, int ymax);
 
 #endif

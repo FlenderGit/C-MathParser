@@ -54,7 +54,7 @@ Token* parser_prefix_expr(Parser *parser)
 	Token* tok = (void*)0;
 
 	switch(parser->current->type) {
-	case T_NUMBER:
+	case T_NUMBER: case T_VARIABLE:
 		tok = parser->current;
 		parser_advance(parser);
 		return tok;
@@ -73,12 +73,19 @@ Token* parser_prefix_expr(Parser *parser)
 	case T_CALL:
 		tok = parser->current;
 		parser_advance(parser);
-		if(parser->current->type==T_OPEN)
+		
+		if(parser->current->type==T_OPEN){
 			parser_advance(parser);
+		}
+
 		for(short i=0; i<tok->function.prot->numberArgs; ++i){
 			tok->function.args[i] = parse_expr(parser,0);
+			
+			if(parser->current->type = T_COMMA)
+				parser_advance(parser);
 		}
-		print_token(tok,0);
+		
+		
 		if(parser->current->type == T_CLOSE)
 			parser_advance(parser);
 

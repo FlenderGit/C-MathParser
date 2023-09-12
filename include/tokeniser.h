@@ -9,13 +9,16 @@
 typedef enum {
 	T_EOF,
 	T_NUMBER,
+	T_IDENTIFICATOR,
 	T_VARIABLE,
 
 	T_OPERATOR,
 	T_CALL,
 
 	T_OPEN,
-	T_CLOSE
+	T_CLOSE,
+	T_COMMA
+
 } TOKEN_TYPE;
 
 

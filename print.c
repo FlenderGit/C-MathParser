@@ -1,6 +1,8 @@
-#include "include/tokeniser.h"
 #include <stdio.h>
 #include <string.h>
+
+#include "include/tokeniser.h"
+#include "include/eval.h"
 
 void printTab(short lvlInt)
 {
@@ -45,6 +47,8 @@ void print_token(Token *token, short tab_number)
 		printTab(tab_number);
 		printf("TYPE : CALL\n");
 		printTab(tab_number);
+		printf("NAME :%s\n", token->function.prot->name);
+		printTab(tab_number);
 		printf("ARGS :\n");
 		
 		for(short i=0; i<token->function.prot->numberArgs;++i){
@@ -52,6 +56,11 @@ void print_token(Token *token, short tab_number)
 		}
 		
 		break;
+	case T_VARIABLE:
+		printTab(tab_number);
+		printf("TYPE: VARIABLE\n");
+		break;
+
 	case T_EOF:
 		printf("TYPE : EOF");
 		break;
@@ -153,4 +162,16 @@ void print_expr(Token* token)
     } else if (token->type == T_NUMBER){
         printf("%g", token->value);
     }
+}
+
+void print_table(Token* token, double min, double max, double step) {
+	for(double i=min; i<max; i+=step) {
+		double var = eval_var(token, i);
+		printf("| %g\t| %g\t|\n", i, var);
+	}
+}
+
+void print_graph(Token* token, double min, double max, double step, int yMin, int ymax)
+{
+	printf("%s", "TEST : \u280A\n");
 }

@@ -2,6 +2,7 @@
 #define EVAL_H
 
 #include "tokeniser.h"
+#include "print.h"
 
 /*
  * eval.h
@@ -34,5 +35,9 @@ double eval_token(Token *token);
  *
  */
 double eval(char* expr);
+
+double eval_var(Token* token, double variable);
+void eval_range(char* expr, double min, double max, double step, PRINT_TYPE type);
+
 
 #endif

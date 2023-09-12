@@ -7,11 +7,18 @@
 #include "include/error.h"
 #include "include/tokeniser.h"
 
+// Test
+double minTest(double a, double b){
+	return a < b ? a : b;
+}
 
 FunctPrototype lsFunction[] = {
 	{ .function1=sin, 1, "sin"},
-	{ .function2=pow, 2, "pow"}
+	{ .function2=pow, 2, "pow"},
+	{ .function2=minTest, 2, "min"}
 };
+
+
 
 Token* next_token(Tokeniser *tokeniser)
 {
@@ -29,41 +36,57 @@ Token* next_token(Tokeniser *tokeniser)
 		tok->type=T_EOF;
 		tokeniser->cursor++;
 		return tok;
+	} else if (current=='x') {
+		tok->type=T_VARIABLE;
+		tokeniser->cursor++;
+		return tok;
+	} else if (current==',') {
+		tok->type=T_COMMA;
+		tok->operator=0;
+		tokeniser->cursor++;
+		return tok;
 	} else if(isalpha(current)) {
 		
 
 		// Test variable
 
 		int i = 0;
-		char buffer[10];
 		char* parenthese;
 
-		parenthese = strchr(tokeniser->expr+tokeniser->cursor,'(');
+		//tok->type = T_VARIABLE;
+		//tokeniser->cursor++;
+		char cu;
 
-		if( parenthese != NULL ) {
+		do {
+			cu = tokeniser->expr[tokeniser->cursor+(i++)];
+		} while(cu != ' ' && cu != '(' && cu != '\0');
 
-			size_t length = parenthese - (tokeniser->expr+tokeniser->cursor);
-			strncpy(buffer, tokeniser->expr+tokeniser->cursor, length);
-			buffer[length] = '\0';
+		char* name = malloc(sizeof(char)*i);
+		
+		if( name != NULL ) {
 
-			while ( i < 1 ) {
+			strncpy(name, tokeniser->expr+tokeniser->cursor, i);
+			name[i-1] = '\0';
+			tokeniser->cursor += i-1;
 
-				if ( !strcmp(buffer, lsFunction[i].name) )
+			i = 0;
+			while ( i < 2 ) {
+				if ( !strcmp(name, lsFunction[i].name) )
 					break;
-
 				++i;
 			}
+
 
 			tok->type = T_CALL;
 			tok->function.prot = &lsFunction[i];
 			tok->function.args = malloc(sizeof(Token)*lsFunction[i].numberArgs);
 
-			tokeniser->cursor += strlen(buffer);
 			return tok;
 
 		} else {
 			printf("NOPE\n");
 		}
+		
 
 		
 
@@ -89,6 +112,7 @@ Token* next_token(Tokeniser *tokeniser)
 		tokeniser->cursor++;
 
 	} else {
+
 		tok->type=T_OPERATOR;
 		tok->left=(void*)0;
 		tok->right=(void*)0;
