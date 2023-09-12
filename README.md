@@ -11,8 +11,9 @@ Use the lib:
 ## TO DO:
 [Y] Make the usage of function work 100%
 * Optimize the code
-* Hashtable function
-* Handle flag/option in command
-* Redo eval/var -> test if X else msg
-* next_token redo
-*  
+* operator.h : Hashtable, Add operator (byte && pow)
+* function.h : Hashtable function & add function (sqrt, max, cos, tan, arcsin..., )
+* option.h : Handle flag/option in command `cal "1+x" -x=1` & `cal "1+x" -x=1,10,1`
+* Redo eval/var -> if X ->msg break eval_var with 0, eval -> deprecated 
+* next_token reformat + add fonction (extract str && skip_blanck)
+* add static

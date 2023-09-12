@@ -3,6 +3,7 @@
         "tokeniser.h": "c",
         "parser.h": "c",
         "stdio.h": "c",
-        "chart.h": "c"
+        "chart.h": "c",
+        "string.h": "c"
     },
 }

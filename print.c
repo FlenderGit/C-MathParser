@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "include/tokeniser.h"
 #include "include/eval.h"
@@ -108,18 +109,27 @@ void print_token2(Token *token, short tab_number, int is_right)
     }
 }
 
+void print_tree(Token* token) {
+	char buffer[20] = "";
+	print_token3(token, 0, 0, buffer);
+	printf("\n");
+}
+
 void print_token3(Token *token, int is_tail, int tab_indent, char* buffer)
 {
 
 	printf("%s", buffer);
 
 	if(tab_indent)
-		printf	("%s", is_tail ? "`-- " : "|-- ");
+		printf	("%s", is_tail ? "└── " : "├── ");
 
 	switch(token->type) {
         case T_NUMBER:
             printf("%g\n", token->value);
             break;
+		case T_VARIABLE:
+			printf("x\n");
+			break;
         case T_OPERATOR:
             switch(token->operator) {
                 case OPE_ADD: printf("+"); break;
@@ -133,7 +143,7 @@ void print_token3(Token *token, int is_tail, int tab_indent, char* buffer)
 			strcpy(new_buffer, buffer);
 			
 			if(tab_indent)
-				strcat(new_buffer, is_tail ? "    " : "|   ");
+				strcat(new_buffer, is_tail ? "    " : "│   ");
 
             print_token3(token->left, 0, tab_indent+1, new_buffer);
             print_token3(token->right, 1, tab_indent+1,new_buffer);

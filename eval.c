@@ -76,7 +76,9 @@ double eval_var(Token* token, double variable) {
 				case 2: return token->function.prot->function2(eval_var(token->function.args[0], variable), eval_var(token->function.args[1], variable));
 			}
 
-		default: return -5;
+		default:
+			printf("TOKEN not recon");
+			return -5;
 
 	};
 }
@@ -89,10 +91,10 @@ void eval_range(char* expr, double min, double max, double step, PRINT_TYPE type
 	print_token(token, 0);
 
 	switch(type) {
-		case GRAPH:
+		case P_GRAPH:
 			print_graph(token, min, max, step, 0, 10);
 			break;
-		case TABLE: print_table(token, min, max, step); break;
+		case P_TABLE: print_table(token, min, max, step); break;
 	}
 
 	free_token(token);

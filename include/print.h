@@ -4,8 +4,10 @@
 #include "tokeniser.h"
 
 typedef enum {
-    GRAPH,
-    TABLE
+    P_GRAPH,
+    P_TABLE,
+    P_TREE,
+    P_ROW
 } PRINT_TYPE;
 
 /*
@@ -60,6 +62,7 @@ void print_token2(Token *token, short tab_number, int isTail);
  * 
  * TD : Optimize the buffer to not use space_black
  */
+void print_tree(Token* token);
 void print_token3(Token *token, int is_tail, int tab_indent, char* buffer);
 
 
